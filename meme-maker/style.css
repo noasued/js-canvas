@@ -21,13 +21,13 @@ canvas {
 .btns {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 5px;
 }
 
 .color-options {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 5px;
     align-items: center;
 }
 
@@ -36,7 +36,7 @@ canvas {
     height: 50px;
     border-radius: 50%;
     cursor: pointer;
-    border: 5px solid white;
+    border: 3px solid white;
     transition: transform ease-in-out .1s;
 }
 
