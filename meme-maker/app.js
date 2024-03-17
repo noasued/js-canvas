@@ -10,8 +10,8 @@ const ctx = canvas.getContext("2d");
 const lineWidth = document.getElementById("line-width");
 const color = document.getElementById("color");
 const colorOptions = Array.from(
-        document.getElementsByClassName("color-option")
-    );
+    document.getElementsByClassName("color-option")
+);
 
 // get button
 const modeBtn = document.getElementById("mode-btn"); // mode button
@@ -20,6 +20,7 @@ const eraserBtn = document.getElementById("eraser-btn"); // eraser button
 const fileInput = document.getElementById("img-file"); // file button
 const textInput = document.getElementById("text"); // get text input
 const saveBtn = document.getElementById("save"); // get save button
+const fontBtn = document.getElementById("font-btn");
 
 const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 800;
@@ -32,9 +33,9 @@ ctx.color = color.value;
 ctx.lineCap = "round"; // 선 둥글리기
 
 let isPainting = false;
-let isFilling =false;
+let isFilling = false;
 
-function onMove (event) {
+function onMove(event) {
     if (isPainting) {
         ctx.lineTo(event.offsetX, event.offsetY);
         ctx.stroke();
@@ -43,31 +44,31 @@ function onMove (event) {
     ctx.moveTo(event.offsetX, event.offsetY);
 }
 
-function startPainting () {
+function startPainting() {
     isPainting = true;
 }
 
-function cancelPainting () {
+function cancelPainting() {
     isPainting = false;
     ctx.beginPath();
 }
 
-function onLineWidthChange (event) {
+function onLineWidthChange(event) {
     ctx.lineWidth = event.target.value;
 }
 
-function onLineColorChange (event) {
+function onLineColorChange(event) {
     ctx.strokeStyle = event.target.value;
     ctx.fillStyle = event.target.value;
 }
 
-function onColorClick (event) {
+function onColorClick(event) {
     ctx.strokeStyle = event.target.dataset.color;
     ctx.fillStyle = event.target.dataset.color;
 }
 
 //모드 변경
-function onModeClick () {
+function onModeClick() {
     if (isFilling) {
         isFilling = false;
         modeBtn.innerText = "Fill";
@@ -78,20 +79,22 @@ function onModeClick () {
 }
 
 //캔버스 클릭 시 색깔 채우기
-function onCanvasClick () {
+function onCanvasClick() {
     if (isFilling) {
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     }
 }
 
 //캔버스 비우기
-function onDestroyClick () {
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+function onDestroyClick() {
+    if (confirm("Are you sure to delete everything on the canvas?")) {
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    }
 }
 
 //Eraser 버튼 클릭
-function onEraserClick () {
+function onEraserClick() {
     ctx.strokeStyle = "white";
     isFilling = false;
     modeBtn.innerText = "Fill";
@@ -102,7 +105,7 @@ function onEraserClick () {
 //유저가 파일을 선택했을 때만 javascript에게 보이게 됨
 //유저가 파일을 선택했기 때문에 해당 파일은 브라우저의 메모리 속에 존재함
 //url로 유저가 선택한 파일에 접근
-function onFileChange (event) {
+function onFileChange(event) {
     const file = event.target.files[0];
     const url = URL.createObjectURL(file);
     const image = new Image();
@@ -114,7 +117,7 @@ function onFileChange (event) {
 }
 
 //더블클릭 시 텍스트 출력
-function onDoubleClick (event) {
+function onDoubleClick(event) {
     const text = textInput.value;
 
     if (text !== "") { // text가 비어있지 않으면
@@ -127,7 +130,7 @@ function onDoubleClick (event) {
 }
 
 // save canvas image
-function onSaveClick (event) {
+function onSaveClick(event) {
     // image url로 링크하여 다운로드하게 할 것
     const url = canvas.toDataURL();
     const a = document.createElement("a"); // create a fake link
@@ -136,6 +139,10 @@ function onSaveClick (event) {
     a.click(); // click the link
 }
 
+// change font
+function onFontClick(event) {
+    alert('font');
+}
 
 canvas.addEventListener("dblclick", onDoubleClick);
 canvas.addEventListener("mousemove", onMove);
@@ -154,3 +161,4 @@ destroyBtn.addEventListener("click", onDestroyClick);
 eraserBtn.addEventListener("click", onEraserClick);
 fileInput.addEventListener("change", onFileChange);
 saveBtn.addEventListener("click", onSaveClick);
+// fontBtn.addEventListener("click", onFontClick);
