@@ -65,6 +65,7 @@ function onLineColorChange(event) {
 function onColorClick(event) {
     ctx.strokeStyle = event.target.dataset.color;
     ctx.fillStyle = event.target.dataset.color;
+    sessionStorage.setItem("pickedColor",ctx.fillStyle);
 }
 
 //모드 변경
@@ -80,6 +81,9 @@ function onModeClick() {
 
 //캔버스 클릭 시 색깔 채우기
 function onCanvasClick() {
+    if (sessionStorage.pickedColor != null) {
+        ctx.fillStyle = sessionStorage.pickedColor;
+    }
     if (isFilling) {
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     }
@@ -98,6 +102,7 @@ function onEraserClick() {
     ctx.strokeStyle = "white";
     isFilling = false;
     modeBtn.innerText = "Fill";
+    console.log(sessionStorage);
 }
 
 //파일 첨부
